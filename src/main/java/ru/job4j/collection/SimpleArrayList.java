@@ -9,7 +9,6 @@ public class SimpleArrayList<T> implements List<T> {
     private T[] container;
 
     private int size;
-
     private int modCount;
 
     public SimpleArrayList(int capacity) {
@@ -18,17 +17,14 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public void add(T value) {
-        if (size == container.length) {
-            container = Arrays.copyOf(container, container.length * 2);
-        }
+        sizePlus();
         container[size++] = value;
         modCount++;
     }
 
     @Override
     public T set(int index, T newValue) {
-        index = Objects.checkIndex(index, size);
-        T oldValue = container[index];
+        T oldValue = get(index);
         container[index] = newValue;
         modCount++;
         return oldValue;
@@ -36,21 +32,20 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
-        index = Objects.checkIndex(index, size);
-        T oldValue = container[index];
+        T oldValue = get(index);
         System.arraycopy(
                 container, index + 1,
                 container, index,
                 size - index
         );
         container[size--] = null;
-
         return oldValue;
     }
 
     @Override
     public T get(int index) {
-        return container[Objects.checkIndex(index, size)];
+        index = Objects.checkIndex(index, size);
+        return container[index];
     }
 
     @Override
@@ -58,10 +53,16 @@ public class SimpleArrayList<T> implements List<T> {
         return size;
     }
 
+    private void sizePlus() {
+        if (size == container.length) {
+            container = Arrays.copyOf(container, container.length * 2);
+        }
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            int expectedModCount = modCount;
+            private int expectedModCount = modCount;
             private int index;
 
             @Override
@@ -74,10 +75,6 @@ public class SimpleArrayList<T> implements List<T> {
 
             @Override
             public T next() {
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
-
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
