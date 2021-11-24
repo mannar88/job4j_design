@@ -55,8 +55,7 @@ public class SimpleArrayList<T> implements List<T> {
 
     private void sizePlus() {
         if (size == container.length) {
-            container = container.length != 0 ?
-                    Arrays.copyOf(container, container.length * 2)
+            container = container.length != 0 ? Arrays.copyOf(container, container.length * 2)
                     : Arrays.copyOf(container, 1);
         }
     }
