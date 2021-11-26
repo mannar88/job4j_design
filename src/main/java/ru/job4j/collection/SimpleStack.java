@@ -9,10 +9,7 @@ public class SimpleStack<T> {
     }
 
     public void push(T value) {
-        linked.add(value);
-        while (linked.iterator().next() != value) {
-            linked.add(pop());
-        }
-    }
+        linked.addFirst(value);
+}
 
 }
