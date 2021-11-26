@@ -1,7 +1,6 @@
 package ru.job4j.collection;
 
 import org.junit.Test;
-import ru.job4j.collection.list.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -32,4 +31,17 @@ public class SimpleStackTest {
         stack.pop();
         assertThat(stack.pop(), is(1));
     }
+
+    @Test
+    public void thenSize() {
+        SimpleStack<Integer> stack = new SimpleStack<>();
+        for (int i = 0; i < 10; i++) {
+            stack.push(i);
+        }
+        assertThat(stack.getSize(), is(10));
+        stack.pop();
+        stack.pop();
+        assertThat(stack.getSize(), is(8));
+    }
+
 }
