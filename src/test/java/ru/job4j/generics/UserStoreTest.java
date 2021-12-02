@@ -7,20 +7,20 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class UserStoreTest {
-    private UserStore userStore = new UserStore();
+    private ru.job4j.generics.UserStore userStore = new ru.job4j.generics.UserStore();
 
     @Before
     public void thenAdd() {
 
         for (int i = 1; i < 11; i++) {
-            userStore.add(new User(i + ""));
+            userStore.add(new ru.job4j.generics.User(i + ""));
         }
     }
 
     @Test
     public void thenFindById() {
-        User user1 = userStore.findById("1");
-        User user5 = userStore.findById("5");
+        ru.job4j.generics.User user1 = userStore.findById("1");
+        ru.job4j.generics.User user5 = userStore.findById("5");
         User user10 = userStore.findById("10");
         assertThat(user1.getId(), is("1"));
         assertThat(user5.getId(), is("5"));
