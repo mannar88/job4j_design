@@ -14,9 +14,9 @@ public class SimpleQueue<T> {
         in.push(value);
     }
 
-    private void shift(SimpleStack<T> a, SimpleStack<T> b) {
-        while (a.getHasNext()) {
-            b.push(a.pop());
+    private void shift(SimpleStack<T> donor, SimpleStack<T> recipient) {
+        while (donor.getHasNext()) {
+            recipient.push(donor.pop());
         }
     }
 
