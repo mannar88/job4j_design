@@ -5,19 +5,19 @@ public class SimpleQueue<T> {
     private final SimpleStack<T> out = new SimpleStack<>();
 
     public T poll() {
-        pourOver(in, out);
-        T res = out.pop();
-        pourOver(out, in);
-        return res;
+        shift(in, out);
+        return out.pop();
     }
 
     public void push(T value) {
+        shift(out, in);
         in.push(value);
     }
 
-    private void pourOver(SimpleStack<T> left, SimpleStack<T> right) {
-        while (left.getSize() > 0) {
-            right.push(left.pop());
+    private void shift(SimpleStack<T> a, SimpleStack<T> b) {
+        while (a.getHasNext()) {
+            b.push(a.pop());
         }
     }
+
 }

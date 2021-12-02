@@ -3,7 +3,7 @@ package ru.job4j.collection;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class SimpleStackTest {
 
@@ -33,15 +33,12 @@ public class SimpleStackTest {
     }
 
     @Test
-    public void thenSize() {
+    public void thenget() {
         SimpleStack<Integer> stack = new SimpleStack<>();
-        for (int i = 0; i < 10; i++) {
-            stack.push(i);
-        }
-        assertThat(stack.getSize(), is(10));
+        stack.push(1);
+        assertTrue(stack.getHasNext());
         stack.pop();
-        stack.pop();
-        assertThat(stack.getSize(), is(8));
+        assertFalse(stack.getHasNext());
     }
 
 }
