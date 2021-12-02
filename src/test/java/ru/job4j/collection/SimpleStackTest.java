@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 public class SimpleStackTest {
 
+
     @Test
     public void whenPushThenPoll() {
         SimpleStack<Integer> stack = new SimpleStack<>();
