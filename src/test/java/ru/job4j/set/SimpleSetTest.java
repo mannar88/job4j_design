@@ -30,9 +30,8 @@ public class SimpleSetTest {
         Map<String, Integer> map = new SimpleMap<>();
         assertNull(map.get("test"));
     }
-
     @Test
-    public void thenRemTrue() {
+        public void thenRemTrue() {
         Map<String, Integer> map = new SimpleMap<>();
         map.put("test", 1);
         assertTrue(map.remove("test"));
