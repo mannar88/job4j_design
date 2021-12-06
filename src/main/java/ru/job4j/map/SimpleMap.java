@@ -3,12 +3,13 @@ package ru.job4j.map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
     private static final float LOAD_FACTOR = 0.75f;
 
-    private final int capacity = 8;
+    private int capacity = 8;
 
     private int count = 0;
 
@@ -18,6 +19,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
+        if ((float) count / table.length >= LOAD_FACTOR) {
+            expand();
+        }
         boolean result = false;
         int index = checNull(key);
         if (table[index] == null) {
@@ -25,9 +29,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
             count++;
             modCount++;
             result = true;
-            if ((float) count / table.length >= LOAD_FACTOR) {
-                expand();
-            }
         }
         return result;
     }
@@ -37,12 +38,13 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private int indexFor(int hash) {
-        return (table.length - 1) & hash(hash);
+        return (capacity - 1) & hash(hash);
     }
 
     private void expand() {
         MapEntry<K, V>[] tempTable = table;
-        table = new MapEntry[tempTable.length * 10];
+        capacity = capacity * 2;
+        table = new MapEntry[capacity];
         for (MapEntry<K, V> mapEntry : tempTable) {
             if (mapEntry != null) {
                 put(mapEntry.key, mapEntry.value);
@@ -55,7 +57,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         V result = null;
         int index = checNull(key);
         MapEntry<K, V> mapEntry = table[index];
-        if (mapEntry != null && (mapEntry.key == null || mapEntry.key.equals(key))) {
+        if (mapEntry != null && Objects.equals(mapEntry.key, key)) {
             result = mapEntry.value;
         }
         return result;
@@ -65,7 +67,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         boolean result = false;
         int index = checNull(key);
-        if (table[index] != null && (table[index].key == null || table[index].key.equals(key))) {
+        if (table[index] != null && Objects.equals(table[index], key)) {
             table[index] = null;
             modCount++;
             count--;
