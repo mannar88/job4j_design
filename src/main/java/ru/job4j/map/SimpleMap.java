@@ -67,7 +67,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         boolean result = false;
         int index = checNull(key);
-        if (table[index] != null && Objects.equals(table[index], key)) {
+        if (table[index] != null && Objects.equals(table[index].key, key)) {
             table[index] = null;
             modCount++;
             count--;
@@ -100,7 +100,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
             @Override
             public K next() {
-                if (!hasNext()) {
+                    if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 return table[index++].key;
