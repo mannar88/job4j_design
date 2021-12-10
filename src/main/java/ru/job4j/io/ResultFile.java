@@ -4,10 +4,9 @@ import java.io.FileOutputStream;
 
 public class ResultFile {
     private static String print() {
-        int[][] calk = new int[10][10];
         String res = "";
-        for (int i = 1; i < calk.length; i++) {
-            for (int j = 1; j < calk[i].length; j++) {
+        for (int i = 1; i < 10; i++) {
+            for (int j = 1; j < 10; j++) {
                 res = res + i + " * " + j + " = " + (i * j) + ";"
                         + System.lineSeparator();
             }
