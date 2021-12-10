@@ -25,8 +25,8 @@ public class LogFilter {
                         new FileOutputStream(file)
                 ))) {
             filter(log).forEach(read::println);
-        }catch (Exception e){
-e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -36,6 +36,6 @@ e.printStackTrace();
 
     public static void main(String[] args) {
         print("log.txt");
-save("log.txt", "404.txt");
+        save("log.txt", "404.txt");
     }
 }
