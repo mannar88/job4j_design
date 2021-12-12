@@ -19,7 +19,7 @@ public class LogFilter {
         return res;
     }
 
-    public static void save(String log, String file) {
+    private static void save(String log, String file) {
         try (PrintWriter read = new PrintWriter(
                 new BufferedOutputStream(
                         new FileOutputStream(file)
@@ -30,7 +30,7 @@ public class LogFilter {
         }
     }
 
-    public static void print(String name) {
+    private static void print(String name) {
         filter(name).forEach(System.out::println);
     }
 
