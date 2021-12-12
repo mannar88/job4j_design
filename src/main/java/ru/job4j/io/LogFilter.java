@@ -20,11 +20,11 @@ public class LogFilter {
     }
 
     private static void save(String log, String file) {
-        try (PrintWriter read = new PrintWriter(
+        try (PrintWriter writer  = new PrintWriter(
                 new BufferedOutputStream(
                         new FileOutputStream(file)
                 ))) {
-            filter(log).forEach(read::println);
+            filter(log).forEach(writer::println);
         } catch (Exception e) {
             e.printStackTrace();
         }
