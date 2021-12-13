@@ -2,6 +2,7 @@ package ru.job4j.io;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,12 +18,10 @@ public class Config {
     public void load() {
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             values = reader.lines()
-                    .filter(s -> !s.isEmpty() && s.trim().charAt(0) != '#')
+                    .filter(s -> !s.isBlank() && !s.trim().startsWith("#"))
                     .map(this::check)
                     .collect(Collectors.toMap(strings -> strings[0].trim(), strings -> strings[1].trim()));
-        } catch (IllegalArgumentException i) {
-            throw new IllegalArgumentException(" Не валиддно");
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -35,7 +34,8 @@ public class Config {
     }
 
     private String[] check(String line) {
-        int index = line.trim().indexOf("=");
+        line = line.trim();
+        int index = line.indexOf("=");
         if (index < 1 || index == line.length() - 1 || index != line.lastIndexOf("=")) {
             throw new IllegalArgumentException();
         }
