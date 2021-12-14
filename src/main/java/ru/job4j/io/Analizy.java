@@ -36,12 +36,4 @@ public class Analizy {
                 .map(s -> s.trim().split(" "))
                 .collect(Collectors.toList());
     }
-
-    public static void main(String[] args) {
-        String source = "log1.txt";
-        String target = "./target/unavailable.csv";
-        new Analizy().unavailable(source, target);
-    }
-
-
 }
