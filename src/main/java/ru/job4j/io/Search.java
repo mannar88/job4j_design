@@ -15,7 +15,14 @@ public class Search {
     }
 
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        search(start, p -> p.toFile().getName().endsWith("js")).forEach(System.out::println);
+        if (args.length < 2) {
+        if (args.length == 0) {
+            throw new IllegalArgumentException(" Не указана папка для поиска");
+        } else {
+throw  new  IllegalArgumentException("Не указан ключ поиска");
+        }
+        }
+        Path start = Paths.get(args[0]);
+        search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
     }
 }
