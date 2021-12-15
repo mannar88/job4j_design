@@ -15,13 +15,10 @@ public class Search {
     }
 
     public static void main(String[] args) throws IOException {
-                if (args.length == 0) {
-            throw new IllegalArgumentException("Не указанны аргументы");
-        }
-if (args.length == 1) {
-    throw  new  IllegalArgumentException("Не указан ключ");
+                if (args.length != 2) {
+            throw new IllegalArgumentException("Не правильныные аргументы");
         }
         Path start = Paths.get(args[0]);
-        search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
+        search(start, p -> p.toFile().getName().endsWith("." + args[1])).forEach(System.out::println);
     }
 }
