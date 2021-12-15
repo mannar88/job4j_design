@@ -2,6 +2,7 @@ package ru.job4j.io;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class ArgsName {
 
@@ -25,17 +26,30 @@ public class ArgsName {
     }
 
     public String get(String key) {
+        if (!values.containsKey(key)) {
+            throw new NoSuchElementException("Такого ключа нет");
+        }
         return values.get(key);
     }
 
     private void parse(String[] args) {
+        valid(args);
         for (String keuValue : args) {
             String[] res = keuValue.split("=");
-            if (res.length != 2) {
-                throw new IllegalArgumentException();
-            }
             res[0] = res[0].substring(1);
             values.put(res[0], res[1]);
         }
     }
+
+    private void valid(String[] arg) {
+        for (String string : arg) {
+            int evenOne = string.indexOf("=");
+            int evenTwo = string.lastIndexOf("=");
+            if (!string.startsWith("-") || evenOne != evenTwo
+                    || evenOne == 0 || evenOne == string.length() - 1) {
+                throw new IllegalArgumentException("Не верный ключ - значение");
+            }
+        }
+    }
+
 }
