@@ -15,12 +15,11 @@ public class Search {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException(" Не указана папка для поиска");
-        } else {
-throw  new  IllegalArgumentException("Не указан ключ поиска");
+                if (args.length == 0) {
+            throw new IllegalArgumentException("Не указанны аргументы");
         }
+if (args.length == 1) {
+    throw  new  IllegalArgumentException("Не указан ключ");
         }
         Path start = Paths.get(args[0]);
         search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
