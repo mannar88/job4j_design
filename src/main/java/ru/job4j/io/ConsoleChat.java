@@ -33,7 +33,7 @@ public class ConsoleChat {
             in = reader.readLine();
             in = in.trim();
             record.add("Пользователь: " + in);
-            if (in.equalsIgnoreCase(OUT)) {
+            if (OUT.equalsIgnoreCase(in)) {
                 saveLog();
             } else {
                 work(in);
@@ -44,7 +44,7 @@ public class ConsoleChat {
     }
 
     private void work(String in) {
-        if (in.equalsIgnoreCase(STOP)) {
+        if (STOP.equalsIgnoreCase(in)) {
             chat = false;
         }
         if (CONTINUE.equalsIgnoreCase(in)) {
