@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+
 public class ArgsName {
 
     private final Map<String, String> values = new HashMap<>();
@@ -15,14 +16,6 @@ public class ArgsName {
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
-    }
-
-    public static void main(String[] args) {
-        ArgsName jvm = ArgsName.of(new String[]{"-Xmx=512", "-encoding=UTF-8"});
-        System.out.println(jvm.get("Xmx"));
-
-        ArgsName zip = ArgsName.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
-        System.out.println(zip.get("out"));
     }
 
     public String get(String key) {
@@ -46,7 +39,7 @@ public class ArgsName {
             int evenOne = string.indexOf("=");
             int evenTwo = string.lastIndexOf("=");
             if (!string.startsWith("-") || evenOne != evenTwo
-                    || evenOne == 0 || evenOne == string.length() - 1) {
+                    || evenOne == 1 || evenOne == string.length() - 1) {
                 throw new IllegalArgumentException("Не верный ключ - значение");
             }
         }
