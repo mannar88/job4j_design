@@ -11,7 +11,6 @@ public class EchoServer {
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
-                boolean socketAcses = true;
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
@@ -22,16 +21,13 @@ public class EchoServer {
                         System.out.println(str);
                         if (str.contains("Bye")) {
                             answer = "HTTP/1.1 200 close\r\n\r\n";
-                            socketAcses = false;
+                            server.close();
                         }
                     }
                     out.write(answer.getBytes());
                     out.flush();
                 }
-                if (!socketAcses) {
-                    server.close();
-                }
-            }
+                            }
 
 
         }
