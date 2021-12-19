@@ -62,10 +62,22 @@ public class CSVReader {
         } catch (IOException io) {
             io.printStackTrace();
         }
-
     }
 
-    public static void main(String[] args) throws Exception {
-        handle(ArgsName.of(args));
+    private static ArgsName check(String[] arg) {
+        ArgsName argsName = ArgsName.of(arg);
+        if (arg.length != 4 && !new File(argsName.get("path")).exists() && !";".equals(argsName.get("delimiter"))) {
+            throw new IllegalArgumentException(" не коорректны аргументы");
+        }
+        return argsName;
     }
+
+    public static void main(String[] args) {
+        try {
+            handle(check(args));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
