@@ -33,7 +33,7 @@ public class EchoServer {
                     answer = "HTTP/1.1 200 OK\r\n\r\n";
                     for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
                         System.out.println(str);
-                        if (str.contains("GET")) {
+                        if (str.startsWith("GET")) {
                             answer = search(str, server);
                         }
                     }
