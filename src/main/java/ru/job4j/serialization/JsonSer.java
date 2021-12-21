@@ -19,6 +19,7 @@ public class JsonSer {
         Gson gson = new GsonBuilder().create();
         String gsonString = gson.toJson(jsonSer);
         JsonSer jsonSer1 = gson.fromJson(gsonString, JsonSer.class);
+        System.out.println(jsonSer1.equals(jsonSer));
     }
 
     @Override
