@@ -1,42 +1,69 @@
 package ru.job4j.serialization;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
+@XmlRootElement(name = "jsonSer")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class JsonSer {
-    private final boolean bool = true;
-    private final int anInt = 1;
-    private final String string = "test";
-    private final char[] chars = {'a', 'b', 'c'};
-    private final List<Double> list = List.of(5.0);
+    @XmlAttribute
+    private boolean bool;
+    @XmlAttribute
+    private int anInt;
+    private String string;
+    private char[] chars;
+    private List<Double> list;
 
-    public static void main(String[] args) {
-        JsonSer jsonSer = new JsonSer();
-        Gson gson = new GsonBuilder().create();
-        String gsonString = gson.toJson(jsonSer);
-        JsonSer jsonSer1 = gson.fromJson(gsonString, JsonSer.class);
-        System.out.println(jsonSer1.equals(jsonSer));
+    public JsonSer() {
+
+    }
+
+    public JsonSer(boolean bool, int anInt, String string, char[] chars, List<Double> list) {
+        this.bool = bool;
+        this.anInt = anInt;
+        this.string = string;
+        this.chars = chars;
+        this.list = list;
+    }
+
+    public static void main(String[] args) throws JAXBException, IOException {
+        JsonSer jsonSer = new JsonSer(true, 1, "test", new char[]{'a', 'b', 'c'}, List.of(5.0));
+        JAXBContext context = JAXBContext.newInstance(JsonSer.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        String xml = "";
+        try (StringWriter writer = new StringWriter()) {
+            marshaller.marshal(jsonSer, writer);
+            xml = writer.getBuffer().toString();
+            System.out.println(xml);
+        }
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        try (StringReader reader = new StringReader(xml)) {
+            JsonSer result = (JsonSer) unmarshaller.unmarshal(reader);
+            System.out.println(result);
+        }
+
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        JsonSer jsonSer = (JsonSer) o;
-        return bool == jsonSer.bool && anInt == jsonSer.anInt && Objects.equals(string, jsonSer.string) && Arrays.equals(chars, jsonSer.chars) && Objects.equals(list, jsonSer.list);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(bool, anInt, string, list);
-        result = 31 * result + Arrays.hashCode(chars);
-        return result;
+    public String toString() {
+        return "JsonSer{"
+                + "bool=" + bool
+                + ", anInt=" + anInt
+                + ", string='" + string + '\''
+                + ", chars=" + Arrays.toString(chars)
+                + ", list=" + list
+                + '}';
     }
 }
