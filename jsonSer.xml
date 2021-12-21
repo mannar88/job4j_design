@@ -1,0 +1,12 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<jsonSer bool="true" anInt=1">
+<string string=""test"/>
+<chars>
+<char>a</char>
+<char>b</char>
+<char>c</char>
+</chars>
+<listes>
+<list>5.0</list>
+</listes>
+</jsonSer>
