@@ -15,7 +15,7 @@ public class Find {
 
     private static ArgsName check(String[] arg) {
         ArgsName argsName = ArgsName.of(arg);
-        if (arg.length < 4 || !new File(argsName.get("d")).isDirectory() || !TYPESERCH.containsKey(argsName.get("t"))) {
+        if (arg.length != 4 || !new File(argsName.get("d")).isDirectory() || !TYPESERCH.containsKey(argsName.get("t"))) {
             throw new IllegalArgumentException(" Не верные ключи");
         }
         return argsName;

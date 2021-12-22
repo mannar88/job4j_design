@@ -15,16 +15,19 @@ public class SearchMask implements SearchKey {
             throw new IllegalArgumentException("Не верная маска поиска");
         }
         if (star && name.indexOf("*") == name.lastIndexOf("*")) {
-            int index = name.indexOf("*");
-            String str = name.substring(0, index) + ".+" + name.substring(index + 1);
-            predicate = path -> Pattern.matches(str, path.toFile().getName());
+            predicate = path -> regex(name, "*").matcher(path.toFile().getName()).find();
         }
         if (question && name.indexOf("?") == name.lastIndexOf("?")) {
-            int index = name.indexOf("?");
-            String str = name.substring(0, index) + ".+" + name.substring(index + 1);
             predicate = path -> path.toFile().getName().length() == name.length()
-                    && Pattern.matches(str, path.toFile().getName());
+                    && regex(name, "?").matcher(path.toFile().getName()).find();
         }
         return predicate;
+    }
+
+    private Pattern regex(String name, String del) {
+        int index = name.indexOf(del);
+        String str = name.substring(0, index) + ".+" + name.substring(index + 1);
+        Pattern pattern = Pattern.compile(str);
+        return pattern;
     }
 }
