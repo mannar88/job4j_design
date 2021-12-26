@@ -3,4 +3,5 @@ create database test;
 create table users (Id serial primary key, Name character varying(30), Age integer,  Bool boolean);
 insert into users (Name, Age, Bool) values ('Tom', 33, false);
 select * from users;
+update  users set Name='Jon';
 delete from  users;
