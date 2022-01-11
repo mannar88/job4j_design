@@ -1,4 +1,4 @@
-select*from fauna where name LIKE '%fish' or name LIKE 'fish%' or name LIKE '%fish%';
+select*from fauna where name LIKE '%fish%';
 
 select*from fauna  where avg_age>=10000 and avg_age<=21000;
 
