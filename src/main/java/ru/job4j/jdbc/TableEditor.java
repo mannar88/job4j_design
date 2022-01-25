@@ -10,9 +10,9 @@ import java.util.StringJoiner;
 
 public class TableEditor implements AutoCloseable {
 
+    private final Properties properties;
     private Connection connection;
     private Statement statement;
-    private final Properties properties;
 
     public TableEditor(Properties properties) {
         this.properties = properties;
@@ -38,22 +38,32 @@ public class TableEditor implements AutoCloseable {
         return buffer.toString();
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Properties properties = new Properties();
-        properties.load(new FileReader(new File("./src/main/resources/app.properties")));
-        String tableName = properties.getProperty("tableName");
-        Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("login"), properties.getProperty("password"));
-        TableEditor tableEditor = new TableEditor(properties);
-        tableEditor.createTable(tableName);
-        System.out.println(getTableScheme(connection, tableName));
-        tableEditor.addColumn(tableName, properties.getProperty("columnName"), properties.getProperty("type"));
-        System.out.println(getTableScheme(connection, tableName));
-        tableEditor.renameColumn(tableName, properties.getProperty("columnName"), properties.getProperty("columnNewName"));
-        System.out.println(getTableScheme(connection, tableName));
-        tableEditor.dropColumn(tableName, properties.getProperty("columnNewName"));
-        System.out.println(getTableScheme(connection, tableName));
-        tableEditor.dropTable(tableName);
-        System.out.println(getTableScheme(connection, tableName));
+        try (FileReader fileReader = new FileReader(new File("./src/main/resources/app.properties"))) {
+            properties.load(fileReader);
+            String tableName = properties.getProperty("tableName");
+            try (TableEditor tableEditor = new TableEditor(properties); Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("login"), properties.getProperty("password"))) {
+                tableEditor.createTable(tableName);
+                System.out.println(getTableScheme(connection, tableName));
+                tableEditor.addColumn(tableName, properties.getProperty("columnName"), properties.getProperty("type"));
+                System.out.println(getTableScheme(connection, tableName));
+                tableEditor.renameColumn(tableName, properties.getProperty("columnName"), properties.getProperty("columnNewName"));
+                System.out.println(getTableScheme(connection, tableName));
+                tableEditor.dropColumn(tableName, properties.getProperty("columnNewName"));
+                System.out.println(getTableScheme(connection, tableName));
+                tableEditor.dropTable(tableName);
+                System.out.println(getTableScheme(connection, tableName));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initConnection() {
