@@ -48,7 +48,9 @@ public class TableEditor implements AutoCloseable {
         System.out.println(getTableScheme(connection, tableName));
         tableEditor.addColumn(tableName, properties.getProperty("columnName"), properties.getProperty("type"));
         System.out.println(getTableScheme(connection, tableName));
-        tableEditor.dropColumn(tableName, properties.getProperty("columnName"));
+        tableEditor.renameColumn(tableName, properties.getProperty("columnName"), properties.getProperty("columnNewName"));
+        System.out.println(getTableScheme(connection, tableName));
+        tableEditor.dropColumn(tableName, properties.getProperty("columnNewName"));
         System.out.println(getTableScheme(connection, tableName));
         tableEditor.dropTable(tableName);
         System.out.println(getTableScheme(connection, tableName));
@@ -93,6 +95,11 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) {
+        try {
+            statement.execute("ALTER TABLE " + tableName + " RENAME COLUMN " + columnName + " TO " + newColumnName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
