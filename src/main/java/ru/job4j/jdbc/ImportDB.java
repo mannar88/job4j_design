@@ -26,6 +26,7 @@ public class ImportDB {
             cfg.load(in);
         }
         ImportDB db = new ImportDB(cfg, "./dump.txt");
+        db.load().forEach(user -> System.out.println(user.name + " " + user.email));
         db.save(db.load());
     }
 
@@ -33,8 +34,13 @@ public class ImportDB {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             users = rd.lines()
-                    .map(s -> new User(s.substring(0, s.indexOf(";")), s.substring(s.indexOf(";") + 1, s.length() - 1)))
+                    .map(s -> s.split(";"))
+                    .filter(strings -> strings.length == 2 && !strings[0].isBlank() && !strings[1].isBlank())
+                    .map(strings -> new User(strings[0], strings[1]))
                     .collect(Collectors.toList());
+        }
+        if (users.size() == 0) {
+            throw new IllegalArgumentException();
         }
         return users;
     }
